@@ -1,0 +1,72 @@
+# ===================================================================
+# GENERAL PROPERTIES
+# ===================================================================
+server:
+  port: 8080
+spring:
+  application:
+    name: spring-template
+  main.banner-mode: off
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/library
+    username: root
+    password:
+  jpa:
+    naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    hibernate.ddl-auto: update
+
+# ===================================================================
+# SECURITY PROPERTIES
+# ===================================================================
+security:
+  jwt:
+    Key: llaveperrona
+    lifeTime: 10000
+
+# ===================================================================
+# LOG PROPERTIES
+# ===================================================================
+logging:
+  pattern:
+    file: '[%X{data}%thread] [%X{X-B3-TraceId:-}] - %5p'
+    console: "%p, %d{'yyyy-MM-dd HH:mm:ss,SSS',America/Mexico_City}, %C{1}:%M:%L, %X{mdc.uuid}, %m%n%ex{3}"
+  level:
+    com.moontech.library.books.management: DEBUG
+    org:
+      springframework.data: DEBUG
+      hibernate:
+        SQL: DEBUG
+        type.descriptor.sql.BasicBinder: TRACE
+
+# ===================================================================
+# URL ENDPOINTS
+# ===================================================================
+api:
+  uri:
+    basePath: /api
+    domain:
+      users: /users
+      authors: /authors
+      categories: /categories
+      publishers: /publishers
+      books: /books
+    data:
+      retrieve: /retrieve
+      create: /create
+      modified: /{id}
+      search: /retrieve/{search}
+      authentication: ${api.uri.domain.users}/authentication
+  interceptorPath: "/**"
+
+# ===================================================================
+# SWAGGER PROPERTIES
+# ===================================================================
+swagger:
+  basePackage: com.moontech
+  title: SERV-template-service
+  descriptionApi: Gestion y administracio de librerias.
+  version: 1.0.0
+  nameDeveloper: Felipe Monzo
+  contactUrl: https://felipemonzon.github.io/
+  emailDeveloper: felipemonzon2705@gmail.com
