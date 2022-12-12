@@ -1,0 +1,113 @@
+# ===================================================================
+# GENERAL PROPERTIES
+# ===================================================================
+server:
+  port: 8080
+spring:
+  application:
+    name: spring-template
+  main.banner-mode: off
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/template
+    username: root
+    password: root
+  jpa:
+    naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    hibernate.ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        format_sql: false
+  flyway:
+    enabled: true
+    locations: classpath:/db/scripts/migration
+    baseline-on-migrate: true
+    baseline: 0
+  # ===================================================================
+  # MAIL PROPERTIES
+  # ===================================================================
+  mail:
+    default-encoding: UTF-8
+    host: smtp.gmail.com
+    port: 587
+    username: ulquiorra.kurosaki50@gmail.com
+    password: urzxuqfyrrqtdyiw
+    server:
+      protocol: smtp
+      debug: false
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  freemarker:
+    enabled: true
+    template-loader-path: classpath:/templates
+# ===================================================================
+# SECURITY PROPERTIES
+# ===================================================================
+security:
+  jwt:
+    Key: llaveperrona
+    lifeTime: 10000
+
+# ===================================================================
+# LOG PROPERTIES
+# ===================================================================
+logging:
+  pattern:
+    file: '[%X{data}%thread] [%X{X-B3-TraceId:-}] - %5p'
+    console: "%p, %d{'yyyy-MM-dd HH:mm:ss,SSS',America/Mexico_City}, %C{1}:%M:%L, %X{mdc.uuid}, %m%n%ex{3}"
+  level:
+    com.moontech: DEBUG
+    org:
+      springframework.data: DEBUG
+      hibernate:
+        SQL: DEBUG
+        type.descriptor.sql.BasicBinder: TRACE
+
+# ===================================================================
+# URL ENDPOINTS
+# ===================================================================
+api:
+  uri:
+    basePath: /api
+    domain:
+      users: /users
+    data:
+      modified: /{id}
+      search: /{search}
+      authentication: ${api.uri.domain.users}/authentication
+      confirm: ${api.uri.domain.users}/confirm
+      userConfirm: /confirm
+  interceptorPath: "/**"
+  # ===================================================================
+  # MAIL TEMPLATE PROPERTIES
+  # ===================================================================
+  mail:
+    templates:
+      user: email-user-template.flth
+      customer: email-customer-template.flth
+      payment: email-payment-subscription-template.flth
+    welcome: Bienvenido
+    from: felipemonzon2705@gmail.com
+    payment: Tu Recibo de la Membresía
+    confirm: Bienvenido a la empresa, gracias por suscribirte, estas más cerca<br>de completar tu registro.
+    enterpriseName: Template
+
+  token:
+    expiration: 1 # one day
+# ===================================================================
+# SWAGGER PROPERTIES
+# ===================================================================
+swagger:
+  basePackage: com.moontech
+  title: SERV-template-service
+  descriptionApi: Template for spring projects
+  version: 1.0.0
+  nameDeveloper: Felipe Monzón
+  contactUrl: https://felipemonzon.github.io/
+  emailDeveloper: felipemonzon2705@gmail.com
+  licenceUrl: https://github.com/felipemonzon/spring-template/blob/main/LICENSE
