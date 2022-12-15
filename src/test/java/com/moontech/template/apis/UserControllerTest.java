@@ -15,10 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 /**
@@ -97,12 +100,16 @@ class UserControllerTest extends MysqlBaseConfigurationTest {
   @DisplayName("POST /users/confirm invalid token")
   void confirm_user_invalid(TestInfo testInfo) throws Exception {
     log.info(TestConstants.TEST_RUNNING, testInfo.getDisplayName());
+    String confirmToken = "d005a5ad-0ebb-429f-9cbf-b864cbd6a3aa";
     this.mockMvc
         .perform(
-            MockMvcRequestBuilders.get(
-                    USERS_BASE_PATH + "/confirm?token=d005a5ad-0ebb-429f-9cbf-b864cbd6a3aa")
+            MockMvcRequestBuilders.get(USERS_BASE_PATH + "/confirm?token=" + confirmToken)
                 .header(TestConstants.UUID_HEADER, String.valueOf(UUID.randomUUID()))
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(
+                    SecurityMockMvcRequestPostProcessors.jwt()
+                        .authorities(new SimpleGrantedAuthority("ROLE_ADMIN"))))
+        .andDo(MockMvcResultHandlers.print())
         .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
   }
 

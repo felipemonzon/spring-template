@@ -80,11 +80,11 @@ Usamos [GithHub](https://github.com/felipemonzon/spring-template) para el versio
 
 ## Autores ✒️
 
-* **Felipe Monzón** - *WEB AND JAVA DEVELOPER*
+* **[Felipe Monzón](https://felipemonzon.github.io/)** - *WEB AND JAVA DEVELOPER*
 
 ## Contribuyendo 🖇
 
 
 ## Licencia 📄
 
-Este proyecto está bajo la Licencia GNU General Public License v3.0 - mira el archivo [LICENSE.md](LICENSE) para detalles
+Este proyecto está bajo la Licencia MIT License - mira el archivo [LICENSE.md](LICENSE) para detalles
