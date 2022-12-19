@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.moontech.template.configuration.MysqlBaseConfigurationTest;
 import com.moontech.template.configuration.TestConstants;
 import com.moontech.template.enums.Genre;
+import com.moontech.template.models.requests.ResetPasswordRequest;
 import com.moontech.template.models.requests.UserRequest;
 import com.moontech.template.services.UserService;
 import java.util.HashSet;
@@ -45,6 +46,8 @@ class UserControllerTest extends MysqlBaseConfigurationTest {
   @Autowired private ObjectMapper objectMapper;
   /** Ruta para usuarios. */
   private static final String USERS_BASE_PATH = "/users";
+  /** Ruta para resetear la contraseña. */
+  private static final String PASSWORD_RESET_BASE_PATH = "/password/reset";
 
   @Test
   @DisplayName("GET /users success")
@@ -125,6 +128,87 @@ class UserControllerTest extends MysqlBaseConfigurationTest {
                 .header(TestConstants.UUID_HEADER, String.valueOf(UUID.randomUUID()))
                 .contentType(MediaType.APPLICATION_JSON))
         .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+  }
+
+  @Test
+  @Order(6)
+  @DisplayName("POST /users/confirm expired token")
+  void confirm_expired_token(TestInfo testInfo) throws Exception {
+    log.info(TestConstants.TEST_RUNNING, testInfo.getDisplayName());
+    String token = "a7749c83-c1ed-4bf7-9f8f-a50105a526c5";
+    this.mockMvc
+        .perform(
+            MockMvcRequestBuilders.get(USERS_BASE_PATH + "/confirm?token=" + token)
+                .header(TestConstants.UUID_HEADER, String.valueOf(UUID.randomUUID()))
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+  }
+
+  @Test
+  @Order(7)
+  @DisplayName("POST /users/password/reset success")
+  void reset_password_success(TestInfo testInfo) throws Exception {
+    log.info(TestConstants.TEST_RUNNING, testInfo.getDisplayName());
+    this.mockMvc
+        .perform(
+            MockMvcRequestBuilders.post(USERS_BASE_PATH + PASSWORD_RESET_BASE_PATH)
+                .header(TestConstants.UUID_HEADER, String.valueOf(UUID.randomUUID()))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(
+                    this.objectMapper.writeValueAsString(
+                        this.getResetPasswordRequest("felipemonzon2705"))))
+        .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+  }
+
+  @Test
+  @Order(8)
+  @DisplayName("POST /users/password/reset not exists user")
+  void reset_password_not_exists_user(TestInfo testInfo) throws Exception {
+    log.info(TestConstants.TEST_RUNNING, testInfo.getDisplayName());
+    this.mockMvc
+        .perform(
+            MockMvcRequestBuilders.post(USERS_BASE_PATH + PASSWORD_RESET_BASE_PATH)
+                .header(TestConstants.UUID_HEADER, String.valueOf(UUID.randomUUID()))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(
+                    this.objectMapper.writeValueAsString(
+                        this.getResetPasswordRequest("usuarionoexistente"))))
+        .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+  }
+
+  @Test
+  @Order(9)
+  @DisplayName("POST /users/password/reset bad request")
+  void reset_password_bad_request(TestInfo testInfo) throws Exception {
+    log.info(TestConstants.TEST_RUNNING, testInfo.getDisplayName());
+    this.mockMvc
+        .perform(
+            MockMvcRequestBuilders.post(USERS_BASE_PATH + PASSWORD_RESET_BASE_PATH)
+                .header(TestConstants.UUID_HEADER, String.valueOf(UUID.randomUUID()))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(this.objectMapper.writeValueAsString(this.getResetPasswordRequest(""))))
+        .andExpect(MockMvcResultMatchers.status().is4xxClientError());
+  }
+
+  @Test
+  @Order(8)
+  @DisplayName("POST /users/password/reset method not allowed")
+  void reset_password_method_not_allowed(TestInfo testInfo) throws Exception {
+    log.info(TestConstants.TEST_RUNNING, testInfo.getDisplayName());
+    this.mockMvc
+        .perform(
+            MockMvcRequestBuilders.get(USERS_BASE_PATH + PASSWORD_RESET_BASE_PATH)
+                .header(TestConstants.UUID_HEADER, String.valueOf(UUID.randomUUID()))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(
+                    this.objectMapper.writeValueAsString(this.getResetPasswordRequest("felipe"))))
+        .andExpect(MockMvcResultMatchers.status().is4xxClientError());
+  }
+
+  private ResetPasswordRequest getResetPasswordRequest(String user) {
+    ResetPasswordRequest request = new ResetPasswordRequest();
+    request.setUsername(user);
+    return request;
   }
 
   private UserRequest getUserRequest(String password, String username) {

@@ -72,7 +72,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
       httpServletResponse.setCharacterEncoding(StandardCharsets.UTF_8.name());
       if (!httpServletRequest.getRequestURI().contains("/swagger")
           && !httpServletRequest.getRequestURI().contains("/v3/api-docs")
-          && !httpServletRequest.getRequestURI().contains("/favicon.ico")) {
+          && !httpServletRequest.getRequestURI().contains("/favicon.ico")
+          && !httpServletRequest.getRequestURI().contains("/users/password/reset")) {
         httpServletResponse
             .getWriter()
             .print(

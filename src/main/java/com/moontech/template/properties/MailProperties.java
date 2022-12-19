@@ -23,37 +23,31 @@ import org.springframework.core.io.Resource;
 public class MailProperties {
   /** Encabezado del correo. */
   private String payment;
-  /** Encabezado para confirmación. */
-  private String confirm;
   /** Encabezado para mensaje de bienvenida. */
   private String welcome;
+  /** Encabezado para reinicio de contraseña. */
+  private String resetPassword;
   /** Destinatario del correo. */
   private String from;
   /** Nombre empresa. */
   private String enterpriseName;
   /** Imagen de venta. */
   @Value("classpath:/templates/images/welcome.png")
-  private Resource welcomeImage;
-  /** Logo. */
-  @Value("classpath:/templates/images/logo.png")
-  private Resource logoImg;
+  private Resource welcomeIcon;
   /** Icono de Facebook. */
-  @Value("classpath:/templates/images/facebook.png")
+  @Value("classpath:/templates/images/facebook-rounded-gray.png")
   private Resource facebookIcon;
-  /** Icono de Whatsapp. */
-  @Value("classpath:/templates/images/whatsapp.png")
-  private Resource whatsIcon;
+  /** Icono para olvidar contraseña. */
+  @Value("classpath:/templates/images/forgot_password.png")
+  private Resource forgotPassword;
   /** Icono de EMAIL. */
-  @Value("classpath:/templates/images/correo_2.png")
-  private Resource emailIcon;
-  /** Icono de flecha. */
-  @Value("classpath:/templates/images/flecha.png")
-  private Resource arrow;
+  @Value("classpath:/templates/images/linkedin-rounded-gray.png")
+  private Resource linkedinIcon;
   /** Icono de instagram. */
-  @Value("classpath:/templates/images/instagram.png")
+  @Value("classpath:/templates/images/instagram-rounded-gray.png")
   private Resource instagramIcon;
   /** Icono de EMAIL. */
-  @Value("classpath:/templates/images/twitter.png")
+  @Value("classpath:/templates/images/twitter-rounded-gray.png")
   private Resource twitterIcon;
   /** Plantilla de correo. */
   private Map<String, String> templates;
@@ -67,20 +61,18 @@ public class MailProperties {
   public MailConfiguration loadConfig() {
     return MailConfiguration.builder()
         .mail(this.from)
-        .welcomeImg(this.welcomeImage)
+        .welcomeImg(this.welcomeIcon)
+        .forgotPassword(this.forgotPassword)
         .payment(this.payment)
         .welcome(this.welcome)
-        .confirmMessage(this.confirm)
+        .resetPassword(this.resetPassword)
         .welcomeMessage(this.welcome)
-        .templates(templates)
+        .templates(this.templates)
         .facebookIcon(this.facebookIcon)
-        .whatsIcon(this.whatsIcon)
-        .emailIcon(this.emailIcon)
-        .logoImg(this.logoImg)
-        .arrowIcon(this.arrow)
         .enterpriseName(this.enterpriseName)
         .twitterIcon(this.twitterIcon)
         .instagramIcon(this.instagramIcon)
+        .linkedinIcon(this.linkedinIcon)
         .build();
   }
 }

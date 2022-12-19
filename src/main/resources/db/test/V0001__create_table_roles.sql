@@ -85,3 +85,7 @@ VALUES(2, '7b920dac-d5d2-4e6e-91f7-6c2f848e366d', '2022-12-11 00:55:51', 1, DATE
 INSERT INTO confirmation_tokens
 (token_id, confirmation_token, created_date, user_id, expiration_date, status)
 VALUES(3, 'e8487113-d915-4c4e-9a40-dc85e44d19e2', '2022-12-11 00:55:51', 1, '2022-12-11 11:50:21', 'ACTIVE');
+
+INSERT INTO confirmation_tokens
+(token_id, confirmation_token, created_date, user_id, expiration_date, status)
+VALUES(4, 'a7749c83-c1ed-4bf7-9f8f-a50105a526c5', '2022-12-11 00:55:51', 1, '2022-12-11 11:50:21', 'ACTIVE');

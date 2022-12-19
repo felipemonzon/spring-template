@@ -9,5 +9,7 @@ package com.moontech.template.enums;
 public enum Status {
   ACTIVE,
   INACTIVE,
+  USED,
+  EXPIRED,
   PENDING_TO_CONFIRM
 }

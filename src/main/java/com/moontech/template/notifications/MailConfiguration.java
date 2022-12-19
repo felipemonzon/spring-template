@@ -1,7 +1,9 @@
 package com.moontech.template.notifications;
 
 import java.util.Map;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 import org.springframework.core.io.Resource;
 
 /**
@@ -12,40 +14,30 @@ import org.springframework.core.io.Resource;
  * @since Dec 01, 2022
  */
 @Getter
-@Setter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 public class MailConfiguration {
   /** Encabezado de compra. */
   private String payment;
   /** Encabezado de bienvenida. */
   private String welcome;
+  /** Encabezado para reinicio de contraseña. */
+  private String resetPassword;
   /** Destinatario del correo. */
   private String mail;
-  /** Plantilla de correo para usuarios de la webapp. */
-  private String templateUser;
-  /** Plantilla de correo para clientes. */
-  private String templateCustomer;
   /** Mensaje predeterminado de ayuda. */
   private String welcomeMessage;
-  /** Mensaje de confirmación. */
-  private String confirmMessage;
   /** Icono de bienvenida. */
   private Resource welcomeImg;
-  /** Logo. */
-  private Resource logoImg;
   /** Icono de Facebook. */
   private Resource facebookIcon;
-  /** Icono de Whatsapp. */
-  private Resource whatsIcon;
+  /** Icono para olvidar contraseña. */
+  private Resource forgotPassword;
   /** Icono de EMAIL. */
-  private Resource emailIcon;
-  /** Icono de flecha. */
-  private Resource arrowIcon;
+  private Resource linkedinIcon;
   /** Icono de instagram. */
   private Resource instagramIcon;
-  /** Icono de twitter. */
+  /** Icono de EMAIL. */
   private Resource twitterIcon;
   /** Plantillas de correo. */
   private Map<String, String> templates;

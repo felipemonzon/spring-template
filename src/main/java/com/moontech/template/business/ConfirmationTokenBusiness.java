@@ -55,11 +55,17 @@ public class ConfirmationTokenBusiness implements ConfirmationTokenService {
         this.confirmationTokenRepository
             .findByConfirmTokenAndStatus(token, Status.ACTIVE)
             .orElseGet(ConfirmationTokenEntity::new);
-    if (!ObjectUtils.isEmpty(entity.getConfirmToken())
-        && entity.getExpirationDate().isAfter(LocalDateTime.now())) {
-      log.info("Consulta token con éxito.");
-      return entity;
+    if (!ObjectUtils.isEmpty(entity.getConfirmToken())) {
+      if (entity.getExpirationDate().isAfter(LocalDateTime.now())) {
+        log.info("Consulta token con éxito.");
+        return entity;
+      } else {
+        log.debug("token expirado");
+        this.save(entity, Status.EXPIRED);
+        throw new BusinessException(ErrorConstant.ACCESS_DENIED_CODE, ErrorConstant.INVALID_TOKEN);
+      }
     } else {
+      log.debug("No existe el token.");
       throw new BusinessException(ErrorConstant.ACCESS_DENIED_CODE, ErrorConstant.INVALID_TOKEN);
     }
   }
@@ -67,8 +73,8 @@ public class ConfirmationTokenBusiness implements ConfirmationTokenService {
   /** {@inheritDoc}. */
   @Override
   @Transactional
-  public void save(ConfirmationTokenEntity entity) {
-    entity.setStatus(Status.INACTIVE);
+  public void save(ConfirmationTokenEntity entity, Status status) {
+    entity.setStatus(status);
     this.confirmationTokenRepository.save(entity);
   }
 }

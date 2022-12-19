@@ -29,24 +29,22 @@ public class Notification {
   @Autowired private Configuration fmConfiguration;
   /** Propiedades del correo. */
   @Autowired private MailConfiguration mailConfiguration;
-  /** Nombre del logo. */
-  private static final String CHECK_NAME = "welcome.png";
-  /** Nombre del logo. */
-  private static final String LOGO_NAME = "logo.png";
-  /** Icono de facebook. */
-  private static final String FACEBOOK_NAME = "facebook.png";
-  /** Icono de whatsapp. */
-  private static final String WHATSAPP_NAME = "whatsapp.png";
-  /** Icono de email. */
-  private static final String EMAIL_NAME = "correo_2.png";
-  /** Icono de email. */
-  private static final String ARROW_ICON = "flecha.png";
-  /** Icono de twitter. */
-  private static final String TWITTER_ICON = "twitter.png";
-  /** Icono de instagram. */
-  private static final String INSTAGRAM_ICON = "instagram.png";
+  /** Nombre del logo para el registro de usuario. */
+  private static final String REGISTER_USER = "welcome.png";
   /** Constante para pago. */
   private static final String PAYMENT = "PAYMENT";
+  /** Constante para olvidar contraseña. */
+  private static final String FORGOT_PASSWORD = "FORGOTPASSWORD";
+  /** Icono de facebook. */
+  private static final String FACEBOOK2_NAME = "facebook-rounded-gray.png";
+  /** Icono para olvidar contraseña. */
+  private static final String FORGOT_PASSWORD_ICON = "forgot_password.png";
+  /** Icono de instagram. */
+  private static final String INSTAGRAM2_ICON = "instagram-rounded-gray.png";
+  /** Icono de linkedin. */
+  private static final String LINKEDIN_ICON = "linkedin-rounded-gray.png";
+  /** Icono de twitter. */
+  private static final String TWITTER2_ICON = "twitter-rounded-gray.png";
 
   /**
    * Envía el correo.
@@ -57,17 +55,10 @@ public class Notification {
   public void sendMail(final Email mail, EmailTemplate templateName) {
     MimeMessage mimeMessage = this.emailSender.createMimeMessage();
     try {
-      String subject =
-          templateName.name().equals(PAYMENT)
-              ? this.mailConfiguration.getPayment()
-              : this.mailConfiguration.getWelcome();
-      log.info("Sending email by {}", subject);
+      String subject = this.getSubject(templateName);
+      log.info("Sending email by {}", templateName.name());
       String template =
           this.mailConfiguration.getTemplates().get(templateName.name().toLowerCase());
-      mail.getModel()
-          .put(
-              ApiConstant.MAIL_CONFIRM_MESSAGE_PROPERTY,
-              this.mailConfiguration.getConfirmMessage());
       mail.getModel()
           .put(
               ApiConstant.MAIL_ENTERPRISE_NAME_PROPERTY,
@@ -77,17 +68,32 @@ public class Notification {
       mimeMessageHelper.setFrom(this.mailConfiguration.getMail());
       mimeMessageHelper.setTo(mail.getTo());
       mimeMessageHelper.setText(this.getContentFromTemplate(mail.getModel(), template), true);
-      mimeMessageHelper.addInline(CHECK_NAME, this.mailConfiguration.getWelcomeImg());
-      mimeMessageHelper.addInline(FACEBOOK_NAME, this.mailConfiguration.getFacebookIcon());
-      mimeMessageHelper.addInline(EMAIL_NAME, this.mailConfiguration.getEmailIcon());
-      mimeMessageHelper.addInline(ARROW_ICON, this.mailConfiguration.getArrowIcon());
-      mimeMessageHelper.addInline(TWITTER_ICON, this.mailConfiguration.getTwitterIcon());
-      mimeMessageHelper.addInline(INSTAGRAM_ICON, this.mailConfiguration.getInstagramIcon());
+
+      if (templateName.name().equals(FORGOT_PASSWORD)) {
+        mimeMessageHelper.addInline(
+            FORGOT_PASSWORD_ICON, this.mailConfiguration.getForgotPassword());
+      } else {
+        mimeMessageHelper.addInline(REGISTER_USER, this.mailConfiguration.getWelcomeImg());
+      }
+
+      this.getIcons(mimeMessageHelper);
 
       this.emailSender.send(mimeMessageHelper.getMimeMessage());
     } catch (MessagingException e) {
       log.error(e.getMessage(), e);
     }
+  }
+
+  /**
+   * Obtiene los iconos para el envío del correo.
+   *
+   * @param mimeMessageHelper {@code MimeMessageHelper}
+   */
+  private void getIcons(MimeMessageHelper mimeMessageHelper) throws MessagingException {
+    mimeMessageHelper.addInline(FACEBOOK2_NAME, this.mailConfiguration.getFacebookIcon());
+    mimeMessageHelper.addInline(LINKEDIN_ICON, this.mailConfiguration.getLinkedinIcon());
+    mimeMessageHelper.addInline(TWITTER2_ICON, this.mailConfiguration.getTwitterIcon());
+    mimeMessageHelper.addInline(INSTAGRAM2_ICON, this.mailConfiguration.getInstagramIcon());
   }
 
   /**
@@ -107,5 +113,27 @@ public class Notification {
       log.error(e.getMessage(), e);
     }
     return content.toString();
+  }
+
+  /**
+   * Obtiene el asunto del correo.
+   *
+   * @param templateName nombre del template
+   * @return asunto del correo.
+   */
+  private String getSubject(EmailTemplate templateName) {
+    String subject;
+    switch (templateName.name()) {
+      case PAYMENT:
+        subject = this.mailConfiguration.getPayment();
+        break;
+      case FORGOT_PASSWORD:
+        subject = this.mailConfiguration.getResetPassword();
+        break;
+      default:
+        subject = this.mailConfiguration.getWelcome();
+    }
+
+    return subject;
   }
 }

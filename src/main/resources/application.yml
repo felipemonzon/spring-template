@@ -35,7 +35,7 @@ spring:
     password: urzxuqfyrrqtdyiw
     server:
       protocol: smtp
-      debug: false
+      debug: true
     properties:
       mail:
         smtp:
@@ -82,6 +82,8 @@ api:
       authentication: ${api.uri.domain.users}/authentication
       confirm: ${api.uri.domain.users}/confirm
       userConfirm: /confirm
+      reset: /password/reset
+      passwordForgot: ${api.uri.domain.users}/password/reset
   interceptorPath: "/**"
   # ===================================================================
   # MAIL TEMPLATE PROPERTIES
@@ -91,10 +93,11 @@ api:
       user: email-user-template.flth
       customer: email-customer-template.flth
       payment: email-payment-subscription-template.flth
+      forgotpassword: forgot-password-template.flth
+    from: ulquiorra.kurosaki50@gmail.com
     welcome: Bienvenido
-    from: felipemonzon2705@gmail.com
     payment: Tu Recibo de la Membresía
-    confirm: Bienvenido a la empresa, gracias por suscribirte, estas más cerca<br>de completar tu registro.
+    resetPassword: Recupera tu Contraseña
     enterpriseName: Template
 
   token:

@@ -10,5 +10,6 @@ package com.moontech.template.enums;
 public enum EmailTemplate {
   USER,
   CUSTOMER,
-  PAYMENT
+  PAYMENT,
+  FORGOTPASSWORD
 }

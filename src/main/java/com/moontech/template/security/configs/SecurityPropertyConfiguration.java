@@ -25,6 +25,9 @@ public class SecurityPropertyConfiguration {
   /** Ruta para la confirmación de usuarios. */
   @Value("${api.uri.data.confirm}")
   private String userConfirmTokenPath;
+  /** Ruta para la resetear la contraseña del usuario. */
+  @Value("${api.uri.data.passwordForgot}")
+  private String passwordForgotPath;
 
   /**
    * Carga las variables externalizadas en modelo.
@@ -38,6 +41,7 @@ public class SecurityPropertyConfiguration {
         .jwtKey(this.signingKey)
         .jwtLifeTime(this.validity)
         .userConfirmTokenPath(this.userConfirmTokenPath)
+        .forgotPasswordPath(this.passwordForgotPath)
         .build();
   }
 }

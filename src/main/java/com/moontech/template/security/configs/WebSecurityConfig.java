@@ -103,7 +103,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
         .antMatchers(WHITELIST)
         .permitAll()
-        .antMatchers(this.securityProperties.getUserConfirmTokenPath())
+        .antMatchers(
+            this.securityProperties.getUserConfirmTokenPath(),
+            this.securityProperties.getForgotPasswordPath())
         .permitAll()
         .anyRequest()
         .authenticated()

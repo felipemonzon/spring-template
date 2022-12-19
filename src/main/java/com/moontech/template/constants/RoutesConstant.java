@@ -13,6 +13,8 @@ public abstract class RoutesConstant {
   public static final String DATA_MODIFIED_PATH = "${api.uri.data.modified}";
   /** Ruta para actualizar o eliminar los datos. */
   public static final String CONFIRM_TOKEN_PATH = "${api.uri.data.userConfirm}";
+  /** Ruta para solicitar cambio de la contraseña. */
+  public static final String RESET_PASSWORD_PATH = "${api.uri.data.reset}";
 
   /** Constructor de la class. */
   private RoutesConstant() {}

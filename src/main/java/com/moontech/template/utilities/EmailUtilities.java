@@ -23,16 +23,32 @@ public abstract class EmailUtilities {
    * @param path ruta para enviar en caso de necesitar
    * @return {@link Email}
    */
-  public static Email getEmailData(UserEntity userData, String office, String path) {
+  public static Email getUserRegisterEmail(UserEntity userData, String path) {
     Email email = new Email();
-    final String displayName =
-        userData.getFirstName() + ApiConstant.WHITE_SPACE + userData.getLastName();
     Map<String, String> model = new HashMap<>();
-    model.put(ApiConstant.MAIL_NAME_PROPERTY, displayName);
-    model.put(ApiConstant.MAIL_PHONE_PROPERTY, userData.getCel());
-    model.put(ApiConstant.MAIL_USER_PROPERTY, userData.getEmail());
-    model.put(ApiConstant.MAIL_PASSWORD_PROPERTY, userData.getPassword());
-    model.put(ApiConstant.MAIL_OFFICE_PROPERTY, office);
+    model.put(ApiConstant.MAIL_FIRSTNAME_PROPERTY, userData.getFirstName());
+    model.put(ApiConstant.MAIL_LASTNAME_PROPERTY, userData.getLastName());
+    model.put(ApiConstant.MAIL_URL_PROPERTY, getUrlValidationEmail(path));
+    model.put(ApiConstant.MAIL_USER_PROPERTY, userData.getUsername());
+
+    email.setTo(userData.getEmail());
+    email.setModel(model);
+
+    return email;
+  }
+
+  /**
+   * Obtiene los datos para enviar por correo cuando se olvida la contraseña.
+   *
+   * @param userData {@link UserRequest}
+   * @param path ruta para enviar en caso de necesitar
+   * @return {@link Email}
+   */
+  public static Email getResetPassword(UserEntity userData, String path) {
+    Email email = new Email();
+    Map<String, String> model = new HashMap<>();
+    model.put(ApiConstant.MAIL_FIRSTNAME_PROPERTY, userData.getFirstName());
+    model.put(ApiConstant.MAIL_LASTNAME_PROPERTY, userData.getLastName());
     model.put(ApiConstant.MAIL_URL_PROPERTY, getUrlValidationEmail(path));
 
     email.setTo(userData.getEmail());

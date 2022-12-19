@@ -20,4 +20,6 @@ public class SecurityProperties {
   private final String userAuthenticationPath;
   /** Ruta para la confirmación de usuarios. */
   private String userConfirmTokenPath;
+  /** Ruta para olvidar contraseña. */
+  private String forgotPasswordPath;
 }

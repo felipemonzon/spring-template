@@ -20,7 +20,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -93,7 +92,7 @@ public class UserBusiness implements UserService {
     if (user.isPresent()) {
       user.get().setStatus(Status.ACTIVE);
       this.userRepository.save(user.get());
-      this.confirmationTokenBusiness.save(confirmToken);
+      this.confirmationTokenBusiness.save(confirmToken, Status.USED);
     } else {
       throw new BusinessException(ErrorConstant.ACCESS_DENIED_CODE, ErrorConstant.INVALID_TOKEN);
     }
@@ -118,11 +117,9 @@ public class UserBusiness implements UserService {
   private void sendNotification(final UserEntity userEntity, final String randomToken) {
     log.info("Sending email");
     this.notification.sendMail(
-        EmailUtilities.getEmailData(
-            userEntity,
-            StringUtils.EMPTY,
-            SecurityUtilities.getConfirmPath(this.confirmationPath, randomToken)),
-        EmailTemplate.CUSTOMER);
+        EmailUtilities.getUserRegisterEmail(
+            userEntity, SecurityUtilities.getConfirmPath(this.confirmationPath, randomToken)),
+        EmailTemplate.USER);
   }
 
   /**

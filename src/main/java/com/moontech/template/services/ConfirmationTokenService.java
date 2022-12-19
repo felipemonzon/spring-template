@@ -2,6 +2,7 @@ package com.moontech.template.services;
 
 import com.moontech.template.entities.ConfirmationTokenEntity;
 import com.moontech.template.entities.UserEntity;
+import com.moontech.template.enums.Status;
 
 /**
  * Reglas de negocio para la confirmación del token.
@@ -30,6 +31,7 @@ public interface ConfirmationTokenService {
    * Guarda los datos del token con status inactivo
    *
    * @param entity datos dle token
+   * @param status estatus del token
    */
-  void save(ConfirmationTokenEntity entity);
+  void save(ConfirmationTokenEntity entity, Status status);
 }

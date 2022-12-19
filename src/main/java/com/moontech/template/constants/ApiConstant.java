@@ -34,24 +34,18 @@ public abstract class ApiConstant {
   public static final String USER_SYSTEM = "System";
   /** Propiedades para el correo. */
   public static final String PROPERTIES_MAIL = "api.mail";
-  /** Texto a de ayuda del correo. */
-  public static final String MAIL_HELP_MESSAGE_PROPERTY = "welcomeMessage";
   /** Propiedad para la url de confirmación vía email. */
   public static final String MAIL_URL_PROPERTY = "url";
-  /** Nombre del destinatario del correo. */
-  public static final String MAIL_NAME_PROPERTY = "name";
   /** Teléfono del destinatario del correo. */
   public static final String MAIL_PHONE_PROPERTY = "phone";
   /** Usuario del destinatario del correo. */
   public static final String MAIL_USER_PROPERTY = "user";
-  /** Contraseña del destinatario del correo. */
-  public static final String MAIL_PASSWORD_PROPERTY = "password";
-  /** Sucursal del destinatario del correo. */
-  public static final String MAIL_OFFICE_PROPERTY = "office";
   /** Nombre de la empresa. */
   public static final String MAIL_ENTERPRISE_NAME_PROPERTY = "enterprise";
-  /** Mensaje de confirmación de usuario. */
-  public static final String MAIL_CONFIRM_MESSAGE_PROPERTY = "confirm";
+  /** propiedad paras primer nombre. */
+  public static final String MAIL_FIRSTNAME_PROPERTY = "firstname";
+  /** Propiedad para segundo nombre. */
+  public static final String MAIL_LASTNAME_PROPERTY = "lastname";
 
   /** Constructor privado. */
   private ApiConstant() {}
