@@ -80,7 +80,7 @@ public class UserController {
    * @return 200 si se cambio la contraseña con éxito
    */
   @PostMapping(
-      path = RoutesConstant.RESET_PASSWORD_PATH,
+      path = RoutesConstant.RESET_PWD_PATH,
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Void> resetPassword(@RequestBody @Valid ResetPasswordRequest request) {
