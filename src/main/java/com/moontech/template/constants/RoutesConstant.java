@@ -14,7 +14,7 @@ public abstract class RoutesConstant {
   /** Ruta para actualizar o eliminar los datos. */
   public static final String CONFIRM_TOKEN_PATH = "${api.uri.data.userConfirm}";
   /** Ruta para solicitar cambio de la contraseña. */
-  public static final String RESET_PWD_PATH = "${api.uri.data.reset}";
+  public static final String RESET_PD_PATH = "${api.uri.data.reset}";
 
   /** Constructor de la class. */
   private RoutesConstant() {}

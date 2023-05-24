@@ -8,6 +8,8 @@ Para más detalle mira el archivo [CHANGELOG](CHANGELOG)
 
 # Code Quality Result
 
+[![CI/CD](https://github.com/felipemonzon/spring-template/actions/workflows/maven.yml/badge.svg)](https://github.com/felipemonzon/spring-template/actions/workflows/maven.yml)
+
 [![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=felipemonzon_spring-template)](https://sonarcloud.io/summary/new_code?id=felipemonzon_spring-template)
 
 ### Pre-requisitos 📋
