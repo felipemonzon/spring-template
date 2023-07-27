@@ -13,6 +13,7 @@ import com.moontech.template.models.responses.UserResponse;
 import com.moontech.template.notifications.Notification;
 import com.moontech.template.repositories.UserRepository;
 import com.moontech.template.security.utilities.SecurityUtilities;
+import com.moontech.template.services.CaptchaService;
 import com.moontech.template.services.UserService;
 import com.moontech.template.utilities.EmailUtilities;
 import com.moontech.template.utilities.Utilities;
@@ -45,6 +46,8 @@ public class UserBusiness implements UserService {
   private final ConfirmationTokenBusiness confirmationTokenBusiness;
   /** Servicio para mensajería. */
   private final Notification notification;
+  /** Servicio de captcha. */
+  private CaptchaService captchaService;
   /** Puerto de la aplicación. */
   @Value("${api.uri.data.confirm}")
   private String confirmationPath;
@@ -70,6 +73,7 @@ public class UserBusiness implements UserService {
     if (user.isPresent()) {
       throw new BusinessException(ErrorConstant.DATA_EXIST_CODE, ErrorConstant.USERNAME_EXIST);
     } else {
+      this.captchaService.validate(request.getReCaptcha());
       request.setStatus(Status.PENDING_TO_CONFIRM);
       request.setPassword(SecurityUtilities.passwordEncoder(request.getPassword()));
       UserEntity userEntity = this.mapping(request);

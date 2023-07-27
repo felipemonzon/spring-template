@@ -20,6 +20,13 @@ Tener instalado
 * Lombok
 * MySQL
 
+Para desencriptar los datos del archivo properties es necesario
+agregar este parámetro al iniciar el proyecto
+
+```
+-Djasypt.encryptor.password=felipemonzon
+```
+
 ### Formateador de sintaxis de código 📋
 Para formatear el código se realiza de la siguiente manera
 

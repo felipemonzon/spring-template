@@ -10,8 +10,8 @@ spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/template
-    username: root
-    password: root
+    username: ENC(qHkOTuq+VjXI0hJmcbl2WGd9NsWbp49YSyCw3w4OSs302xgjg3MF8us+vg0szDw3)
+    password: ENC(4upc5UTtwStzG9aAmPhkS2eSxZMWbgc0K4s7gv3OlcTySq1irVcFkVcz6MxQce9t)
   jpa:
     naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
     hibernate.ddl-auto: validate
@@ -31,8 +31,8 @@ spring:
     default-encoding: UTF-8
     host: smtp.gmail.com
     port: 587
-    username: ulquiorra.kurosaki50@gmail.com
-    password: urzxuqfyrrqtdyiw
+    username: ENC(OMqfVCDWAZbsxXwMcu9OHTYTc6Y5lh+71US5IbIGmKlTxjq92hQIlmeEiEFonCwmqpMPVJQ+KPujZAYXig8A5A==)
+    password: ENC(LHNJKyxbtfI7RguXsL1zEg0coleVYMPPlCOn1rmkGX+q3ntF5kML4OD1yDVaDBVMs1xTV4pbDrVoKCTgfzw/BA==)
     server:
       protocol: smtp
       debug: true
@@ -50,7 +50,7 @@ spring:
 # ===================================================================
 security:
   jwt:
-    Key: llaveperrona
+    Key: ENC(2EUk5DmKMQDCIgwM+JHkS8r8dmlufceXZlZOvusjN2CgE7PbInQegLT8ZAdd2DLY)
     lifeTime: 10000
 
 # ===================================================================
@@ -114,3 +114,12 @@ swagger:
   contactUrl: https://felipemonzon.github.io/
   emailDeveloper: felipemonzon2705@gmail.com
   licenceUrl: https://github.com/felipemonzon/spring-template/blob/main/LICENSE
+# ===================================================================
+# RECAPTCHA PROPERTIES
+# ===================================================================
+recaptcha:
+  key:
+    site: ENC(ert1bsOGmE5IygKapib+W+XAYPbgyyoXMgbeC/zm3l5bHUzhJ1Nw5y2FEeMIcvQq)
+    secret: ENC(+Z7kArb2U/adECWmtEyYSPyHcYFZhBxmkWWTXY+mjAa0C7DcmEi9uRUeCo9JlfvZ)
+    threshold: 0.5
+    url: https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s&remoteip=%s

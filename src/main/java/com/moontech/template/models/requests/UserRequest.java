@@ -38,4 +38,6 @@ public class UserRequest {
   private Status status;
   /** Roles del usuario. */
   private Set<Long> profiles;
+  /** Datos del captcha. */
+  private String reCaptcha;
 }

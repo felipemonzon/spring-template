@@ -1,6 +1,7 @@
 package com.moontech.template.security.utilities;
 
 import java.util.UUID;
+import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -17,6 +18,8 @@ public abstract class SecurityUtilities {
   private static final String MASK_CARD = "XXXX XXXX XXXX ";
   /** Perfil de cliente. */
   public static final String ROLE_CUSTOMER = "ROLE_CUSTOMER";
+  /** Expresión regular para validar el captcha. */
+  public static final Pattern RESPONSE_PATTERN = Pattern.compile("[A-Za-z0-9_-]+");
 
   /**
    * Encripta la contraseña.

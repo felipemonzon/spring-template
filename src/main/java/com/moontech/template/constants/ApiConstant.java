@@ -46,6 +46,8 @@ public abstract class ApiConstant {
   public static final String MAIL_FIRSTNAME_PROPERTY = "firstname";
   /** Propiedad para segundo nombre. */
   public static final String MAIL_LASTNAME_PROPERTY = "lastname";
+  /** Propiedades para el recaptcha. */
+  public static final String CAPTCHA_PROPERTIES = "recaptcha.key";
 
   /** Constructor privado. */
   private ApiConstant() {}
