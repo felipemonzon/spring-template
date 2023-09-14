@@ -43,6 +43,8 @@ jobs:
         path: target/surefire-reports/*.xml
         reporter: java-junit
         fail-on-error: true
+        list-suites: 'all'
+        list-tests: 'all'
     - name: Cache SonarCloud packages
       uses: actions/cache@v1
       with:
