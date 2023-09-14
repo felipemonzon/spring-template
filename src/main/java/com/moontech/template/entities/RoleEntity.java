@@ -2,9 +2,10 @@ package com.moontech.template.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.moontech.template.constants.DatabaseConstant;
+import jakarta.persistence.*;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Set;
-import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -22,7 +23,7 @@ import lombok.ToString;
 @Entity(name = DatabaseConstant.TABLE_ROLES)
 public class RoleEntity implements Serializable {
   /** Serial. */
-  private static final long serialVersionUID = 2013073849429702841L;
+  @Serial private static final long serialVersionUID = 2013073849429702841L;
   /** Identificador del perfil. */
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)

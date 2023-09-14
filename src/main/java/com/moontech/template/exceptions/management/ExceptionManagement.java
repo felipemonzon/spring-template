@@ -2,13 +2,10 @@ package com.moontech.template.exceptions.management;
 
 import com.moontech.template.constants.ApiConstant;
 import com.moontech.template.constants.ErrorConstant;
-import com.moontech.template.exceptions.custom.BusinessException;
-import com.moontech.template.exceptions.custom.ErrorResponse;
-import com.moontech.template.exceptions.custom.ForbiddenException;
-import com.moontech.template.exceptions.custom.NotDataFoundException;
+import com.moontech.template.exceptions.custom.*;
+import jakarta.servlet.http.HttpServletRequest;
 import java.time.ZonedDateTime;
 import java.util.*;
-import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.core.NestedExceptionUtils;
@@ -262,5 +259,28 @@ public class ExceptionManagement {
             .build();
     log.error(errorResponse.toString());
     return errorResponse;
+  }
+
+  /**
+   * Método para manejar una excepción de tipo {@link ReCaptchaInvalidException}.
+   *
+   * @param request Objeto Http Servlet de petición.
+   * @param ex Excepción recibida {@link ReCaptchaInvalidException}
+   * @return errorResponse {@link ErrorResponse} respuesta específica para {@link
+   *     ReCaptchaInvalidException}.
+   */
+  @ExceptionHandler(ReCaptchaInvalidException.class)
+  @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+  public ErrorResponse resolveReCaptchaInvalidException(
+      WebRequest request, ReCaptchaInvalidException ex) {
+    ErrorResponse apiError =
+        ErrorResponse.builder()
+            .type(ErrorType.WARN.name())
+            .code(ErrorConstant.GENERIC_ERROR_CODE)
+            .message(ex.getMessage())
+            .uuid(request.getHeader(ApiConstant.HEADER_UUID))
+            .build();
+    log.debug(apiError.toString());
+    return apiError;
   }
 }

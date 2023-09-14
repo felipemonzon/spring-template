@@ -1,10 +1,10 @@
--- template.hibernate_sequence definition
+-- template.roles_seq definition
 
-CREATE TABLE `hibernate_sequence` (
-  `next_val` bigint NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE IF NOT EXISTS `roles_seq` (
+  `next_val` bigint DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-INSERT INTO hibernate_sequence (next_val) VALUES (0);
+INSERT INTO roles_seq (next_val) VALUES (0);
 
 CREATE TABLE roles (
 	id BIGINT auto_increment NOT NULL,
@@ -23,6 +23,13 @@ INSERT INTO roles (name, value, status, created_by, created_date, updated_by, up
 VALUES ('ROLE_ADMIN', 'ADMIN', 1, 'ADMIN', NOW(), 'ADMIN', NOW()),
 ('ROLE_CUSTOMER', 'Cliente', 1, 'ADMIN', NOW(), 'ADMIN', NOW());
 
+-- template.users_seq definition
+
+CREATE TABLE IF NOT EXISTS `users_seq` (
+  `next_val` bigint DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO users_seq (next_val) VALUES (0);
 
 -- template.users definition
 
@@ -35,7 +42,7 @@ CREATE TABLE `users` (
   `cellphone` varchar(255) NOT NULL,
   `email_address` varchar(255) NOT NULL,
   `first_name` varchar(255) NOT NULL,
-  `genre` int DEFAULT NULL,
+  `genre` tinyint DEFAULT NULL,
   `last_name` varchar(255) NOT NULL,
   `password` varchar(200) NOT NULL,
   `username` varchar(20) NOT NULL,
@@ -64,6 +71,14 @@ CREATE TABLE `user_roles` (
 
 INSERT INTO user_roles(id_user, id_role)
 VALUES(1, 1);
+
+-- template.confirmation_tokens_seq definition
+
+CREATE TABLE IF NOT EXISTS `confirmation_tokens_seq` (
+  `next_val` bigint DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO confirmation_tokens_seq (next_val) VALUES (0);
 
 -- template.confirmation_tokens definition
 

@@ -12,22 +12,22 @@ import java.util.Map;
  * @enterprise moontech
  */
 public enum ErrorCode {
-  MissingSecret,
-  InvalidSecret,
-  MissingResponse,
-  InvalidResponse,
-  BadRequest,
-  TimeoutOrDuplicate;
+  MISSING_SECRET,
+  INVALID_SECRET,
+  MISSING_RESPONSE,
+  INVALID_RESPONSE,
+  BAD_REQUEST,
+  TIMEOUT_OR_DUPLICATE;
 
   private static final Map<String, ErrorCode> ERROR_MAP = new HashMap<>(6);
 
   static {
-    ERROR_MAP.put("missing-input-secret", MissingSecret);
-    ERROR_MAP.put("invalid-input-secret", InvalidSecret);
-    ERROR_MAP.put("missing-input-response", MissingResponse);
-    ERROR_MAP.put("invalid-input-response", InvalidResponse);
-    ERROR_MAP.put("bad-request", BadRequest);
-    ERROR_MAP.put("timeout-or-duplicate", TimeoutOrDuplicate);
+    ERROR_MAP.put("missing-input-secret", MISSING_SECRET);
+    ERROR_MAP.put("invalid-input-secret", INVALID_SECRET);
+    ERROR_MAP.put("missing-input-response", MISSING_RESPONSE);
+    ERROR_MAP.put("invalid-input-response", INVALID_RESPONSE);
+    ERROR_MAP.put("bad-request", BAD_REQUEST);
+    ERROR_MAP.put("timeout-or-duplicate", TIMEOUT_OR_DUPLICATE);
   }
 
   @JsonCreator

@@ -47,7 +47,7 @@ public class UserBusiness implements UserService {
   /** Servicio para mensajería. */
   private final Notification notification;
   /** Servicio de captcha. */
-  private CaptchaService captchaService;
+  private final CaptchaService captchaService;
   /** Puerto de la aplicación. */
   @Value("${api.uri.data.confirm}")
   private String confirmationPath;

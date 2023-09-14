@@ -17,7 +17,6 @@ spring:
     hibernate.ddl-auto: validate
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL5Dialect
         format_sql: false
   flyway:
     enabled: true
@@ -119,7 +118,7 @@ swagger:
 # ===================================================================
 recaptcha:
   key:
-    site: ENC(ert1bsOGmE5IygKapib+W+XAYPbgyyoXMgbeC/zm3l5bHUzhJ1Nw5y2FEeMIcvQq)
-    secret: ENC(+Z7kArb2U/adECWmtEyYSPyHcYFZhBxmkWWTXY+mjAa0C7DcmEi9uRUeCo9JlfvZ)
+    site: ENC(XjO+wCAj1BTaJwBkh5HcMF1+OY+PiB/mXiSkD8QgNzU4SEJWptmx+2/683hdO4/aKL4EiH+DhkGGNo5WXNbBnm3b8FmN4qBwaZ4qrk9g3Oo=)
+    secret: ENC(0rXk+gotiRCFpGNKhiVuntC+4axIgfj21NHE+wi5RlkYEOm/cdM+xC8jF54ijvMgpkO+yOl+A9MQdUBAeRZA64gt2Et8CmYIJ0YUxwZGITs=)
     threshold: 0.5
     url: https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s&remoteip=%s

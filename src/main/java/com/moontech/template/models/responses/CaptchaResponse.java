@@ -47,9 +47,9 @@ public class CaptchaResponse {
     }
     for (final ErrorCode error : errors) {
       switch (error) {
-        case InvalidResponse:
-        case MissingResponse:
-        case BadRequest:
+        case INVALID_RESPONSE:
+        case MISSING_RESPONSE:
+        case BAD_REQUEST:
           return true;
         default:
           break;

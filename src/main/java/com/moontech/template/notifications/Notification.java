@@ -3,9 +3,9 @@ package com.moontech.template.notifications;
 import com.moontech.template.constants.ApiConstant;
 import com.moontech.template.enums.EmailTemplate;
 import freemarker.template.Configuration;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import java.util.Map;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -25,24 +25,34 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 public class Notification {
   /** Envío de correo. */
   @Autowired private JavaMailSender emailSender;
+
   /** Configuración. */
   @Autowired private Configuration fmConfiguration;
+
   /** Propiedades del correo. */
   @Autowired private MailConfiguration mailConfiguration;
+
   /** Nombre del logo para el registro de usuario. */
   private static final String REGISTER_USER = "welcome.png";
+
   /** Constante para pago. */
   private static final String PAYMENT = "PAYMENT";
+
   /** Constante para olvidar contraseña. */
   private static final String FORGOT_PASSWORD = "FORGOTPASSWORD";
+
   /** Icono de facebook. */
   private static final String FACEBOOK2_NAME = "facebook-rounded-gray.png";
+
   /** Icono para olvidar contraseña. */
   private static final String FORGOT_PASSWORD_ICON = "forgot_password.png";
+
   /** Icono de instagram. */
   private static final String INSTAGRAM2_ICON = "instagram-rounded-gray.png";
+
   /** Icono de linkedin. */
   private static final String LINKEDIN_ICON = "linkedin-rounded-gray.png";
+
   /** Icono de twitter. */
   private static final String TWITTER2_ICON = "twitter-rounded-gray.png";
 
@@ -122,18 +132,10 @@ public class Notification {
    * @return asunto del correo.
    */
   private String getSubject(EmailTemplate templateName) {
-    String subject;
-    switch (templateName.name()) {
-      case PAYMENT:
-        subject = this.mailConfiguration.getPayment();
-        break;
-      case FORGOT_PASSWORD:
-        subject = this.mailConfiguration.getResetPassword();
-        break;
-      default:
-        subject = this.mailConfiguration.getWelcome();
-    }
-
-    return subject;
+    return switch (templateName.name()) {
+      case PAYMENT -> this.mailConfiguration.getPayment();
+      case FORGOT_PASSWORD -> this.mailConfiguration.getResetPassword();
+      default -> this.mailConfiguration.getWelcome();
+    };
   }
 }
