@@ -35,16 +35,6 @@ jobs:
       run: mvn -B -DskipTests package -Djasypt.encryptor.password=felipemonzon --file pom.xml
     - name: Test
       run: mvn -B -Djasypt.encryptor.password=felipemonzon -Dmaven.test.failure.ignore=true test
-    - name: Report
-      uses: dorny/test-reporter@v1
-      if: always()
-      with:
-        name: Maven Tests
-        path: target/surefire-reports/*.xml
-        reporter: java-junit
-        fail-on-error: true
-        list-suites: 'all'
-        list-tests: 'all'
     - name: Cache SonarCloud packages
       uses: actions/cache@v1
       with:
