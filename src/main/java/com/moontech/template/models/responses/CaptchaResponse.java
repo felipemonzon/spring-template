@@ -23,18 +23,23 @@ public class CaptchaResponse {
   /** Propiedad para éxito. */
   @JsonProperty("success")
   private boolean success;
+
   /** Propiedad para el timestamp del reto. */
   @JsonProperty("challenge_ts")
   private String challengeTimeStamp;
+
   /** Dirección del host. */
   @JsonProperty("hostname")
   private String hostname;
+
   /** Propiedad para la puntuación. */
   @JsonProperty("score")
   private float score;
+
   /** Propiedad para ala acción. */
   @JsonProperty("action")
   private String action;
+
   /** Códigos de error. */
   @JsonProperty("error-codes")
   private ErrorCode[] errorCodes;
@@ -47,9 +52,7 @@ public class CaptchaResponse {
     }
     for (final ErrorCode error : errors) {
       switch (error) {
-        case INVALID_RESPONSE:
-        case MISSING_RESPONSE:
-        case BAD_REQUEST:
+        case INVALID_RESPONSE, MISSING_RESPONSE, BAD_REQUEST:
           return true;
         default:
           break;
