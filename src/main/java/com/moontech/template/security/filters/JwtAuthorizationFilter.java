@@ -13,16 +13,15 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
-import java.util.stream.Collectors;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -118,7 +117,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         Arrays.stream(
                 claims.get(SecurityConstants.AUTHORITIES_KEY).toString().split(ApiConstant.COMMA))
             .map(SimpleGrantedAuthority::new)
-            .collect(Collectors.toList());
+            .toList();
     return new UsernamePasswordAuthenticationToken(userDetails, StringUtils.EMPTY, authorities);
   }
 

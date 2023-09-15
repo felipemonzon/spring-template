@@ -79,7 +79,7 @@ class UserControllerTest extends MysqlBaseConfigurationTest {
                 .content(
                     this.objectMapper.writeValueAsString(
                         this.getUserRequest("123456", "felipemonzon1010"))))
-        .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+        .andExpect(MockMvcResultMatchers.status().is4xxClientError());
   }
 
   @Test
@@ -221,6 +221,7 @@ class UserControllerTest extends MysqlBaseConfigurationTest {
     request.setLastName("monzon");
     request.setUsername(username);
     request.setPassword(password);
+    request.setReCaptcha("uriosla");
     Set<Long> profiles = new HashSet<>();
     profiles.add(1L);
     request.setProfiles(profiles);

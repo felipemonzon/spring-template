@@ -12,13 +12,13 @@ import com.moontech.template.models.responses.LoginResponse;
 import com.moontech.template.security.constants.SecurityConstants;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.stream.Collectors;
-import javax.servlet.FilterChain;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -45,8 +45,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
   /** Administrador de autenticación. */
   private final AuthenticationManager authenticationManager;
+
   /** LLave del JWT. */
   private final String signingKey;
+
   /** Tiempo de validación. */
   private final long validity;
 

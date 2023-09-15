@@ -5,18 +5,17 @@ import com.moontech.template.security.filters.JwtAuthenticationFilter;
 import com.moontech.template.security.filters.JwtAuthorizationFilter;
 import java.util.Arrays;
 import java.util.Collections;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
@@ -27,43 +26,42 @@ import org.springframework.web.filter.CorsFilter;
  * @author Felipe Monzón
  * @since 11 ene., 2022
  */
+@Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+@RequiredArgsConstructor
+public class WebSecurityConfig {
   /** Propiedades de seguridad {@code SecurityProperties}. */
   private final SecurityProperties securityProperties;
-  /** {@code UserDetailsService} */
-  private final UserDetailsService userDetailsService;
-  /** {@code PasswordEncoder} */
-  private final BCryptPasswordEncoder passwordEncoder;
+
   /** Constante para *. */
   private static final String ASTERISK = "*";
 
-  /**
-   * Constructor.
-   *
-   * @param userDetailsService {@code UserDetailsService}
-   * @param passwordEncoder {@code PasswordEncoder}
-   */
-  public WebSecurityConfig(
-      UserDetailsService userDetailsService,
-      BCryptPasswordEncoder passwordEncoder,
-      SecurityProperties securityProperties) {
-    this.userDetailsService = userDetailsService;
-    this.securityProperties = securityProperties;
-    this.passwordEncoder = passwordEncoder;
+  @Bean
+  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    return http.cors(AbstractHttpConfigurer::disable)
+        .csrf(AbstractHttpConfigurer::disable)
+        .authorizeHttpRequests(
+            authorize ->
+                authorize.requestMatchers(WHITELIST).permitAll().anyRequest().authenticated())
+        .sessionManagement(
+            session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .addFilterBefore(
+            new JwtAuthenticationFilter(
+                this.authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)),
+                this.securityProperties.getJwtKey(),
+                this.securityProperties.getJwtLifeTime(),
+                new AntPathRequestMatcher(
+                    this.securityProperties.getUserAuthenticationPath(), HttpMethod.POST.name())),
+            UsernamePasswordAuthenticationFilter.class)
+        .addFilterBefore(
+            this.jwtAuthorizationFilterBean(), UsernamePasswordAuthenticationFilter.class)
+        .build();
   }
 
-  /**
-   * Administrator de autenticación.
-   *
-   * @return {@code AuthenticationManager}
-   * @throws Exception excepción
-   */
   @Bean
-  @Override
-  public AuthenticationManager authenticationManagerBean() throws Exception {
-    return super.authenticationManagerBean();
+  public AuthenticationManager authenticationManager(
+      AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    return authenticationConfiguration.getAuthenticationManager();
   }
 
   /**
@@ -74,62 +72,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Bean
   public JwtAuthorizationFilter jwtAuthorizationFilterBean() {
     return new JwtAuthorizationFilter();
-  }
-
-  /**
-   * Configuración de la clase que recupera los usuarios y algoritmo para procesar las contraseñas.
-   */
-  @Override
-  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(userDetailsService).passwordEncoder(this.passwordEncoder);
-  }
-
-  /**
-   * Configuración de spring security.
-   *
-   * @param httpSecurity {@code HttpSecurity}
-   * @throws Exception excepción
-   */
-  @Override
-  protected void configure(HttpSecurity httpSecurity) throws Exception {
-    httpSecurity
-        .sessionManagement()
-        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and()
-        .cors()
-        .and()
-        .csrf()
-        .disable()
-        .authorizeRequests()
-        .antMatchers(WHITELIST)
-        .permitAll()
-        .antMatchers(
-            this.securityProperties.getUserConfirmTokenPath(),
-            this.securityProperties.getForgotPasswordPath())
-        .permitAll()
-        .anyRequest()
-        .authenticated()
-        .and()
-        .addFilterBefore(
-            new JwtAuthenticationFilter(
-                this.authenticationManager(),
-                this.securityProperties.getJwtKey(),
-                this.securityProperties.getJwtLifeTime(),
-                new AntPathRequestMatcher(
-                    this.securityProperties.getUserAuthenticationPath(), HttpMethod.POST.name())),
-            UsernamePasswordAuthenticationFilter.class)
-        .addFilterBefore(
-            this.jwtAuthorizationFilterBean(), UsernamePasswordAuthenticationFilter.class);
-  }
-
-  /**
-   * Resuelve variables de spring placeholder.
-   *
-   * @return {@code PropertySourcesPlaceholderConfigurer}
-   */
-  @Bean
-  public static PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer() {
-    return new PropertySourcesPlaceholderConfigurer();
   }
 
   /**

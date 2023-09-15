@@ -2,9 +2,11 @@ package com.moontech.template.entities;
 
 import com.moontech.template.constants.DatabaseConstant;
 import com.moontech.template.enums.Status;
+import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 import java.util.Date;
-import javax.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -27,19 +29,24 @@ public class ConfirmationTokenEntity {
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "token_id")
   private long tokenId;
+
   /** Token generado de manera aleatoria. */
   @Column(name = "confirmation_token")
   private String confirmToken;
+
   /** Fecha de creación de token */
   @Temporal(TemporalType.TIMESTAMP)
   private Date createdDate;
+
   /** Fecha de caducidad del token. */
   @Column(name = "expiration_date", nullable = false, updatable = false)
   private LocalDateTime expirationDate;
+
   /** Usuario al que pertenece el token. */
   @OneToOne(targetEntity = UserEntity.class, fetch = FetchType.EAGER)
   @JoinColumn(nullable = false, name = "user_id")
   private UserEntity user;
+
   /** Estatus del token. */
   @Enumerated(EnumType.STRING)
   @Column(name = "status", nullable = false)

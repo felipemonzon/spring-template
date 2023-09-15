@@ -7,7 +7,7 @@ import com.moontech.template.models.responses.UserResponse;
 import com.moontech.template.security.constants.SecurityConstants;
 import com.moontech.template.services.PasswordService;
 import com.moontech.template.services.UserService;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
